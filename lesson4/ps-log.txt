@@ -1,0 +1,135 @@
+Script started on 2025-01-12 16:01:09+03:00 [TERM="xterm" TTY="/dev/pts/7" COLUMNS="202" LINES="60"]
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ clear
+[H[2J[3J]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.5 102608 11272 ?        Ss   15:33   0:01 /sbin/init maybe-ubiquity
+root           2  0.0  0.0      0     0 ?        S    15:33   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I<   15:33   0:00 [rcu_gp]
+root           4  0.0  0.0      0     0 ?        I<   15:33   0:00 [rcu_par_gp]
+root           6  0.0  0.0      0     0 ?        I<   15:33   0:00 [kworker/0:0H-kblockd]
+root           8  0.0  0.0      0     0 ?        I<   15:33   0:00 [mm_percpu_wq]
+root           9  0.0  0.0      0     0 ?        S    15:33   0:00 [ksoftirqd/0]
+root          10  0.0  0.0      0     0 ?        I    15:33   0:00 [rcu_sched]
+root          11  0.0  0.0      0     0 ?        S    15:33   0:00 [migration/0]
+root          12  0.0  0.0      0     0 ?        S    15:33   0:00 [idle_inject/0]
+root          14  0.0  0.0      0     0 ?        S    15:33   0:00 [cpuhp/0]
+root          15  0.0  0.0      0     0 ?        S    15:33   0:00 [kdevtmpfs]
+root          16  0.0  0.0      0     0 ?        I<   15:33   0:00 [netns]
+root          17  0.0  0.0      0     0 ?        S    15:33   0:00 [rcu_tasks_kthre]
+root          18  0.0  0.0      0     0 ?        S    15:33   0:00 [kauditd]
+root          19  0.0  0.0      0     0 ?        S    15:33   0:00 [khungtaskd]
+root          20  0.0  0.0      0     0 ?        S    15:33   0:00 [oom_reaper]
+root          21  0.0  0.0      0     0 ?        I<   15:33   0:00 [writeback]
+root          22  0.0  0.0      0     0 ?        S    15:33   0:00 [kcompactd0]
+root          23  0.0  0.0      0     0 ?        SN   15:33   0:00 [ksmd]
+root          24  0.0  0.0      0     0 ?        SN   15:33   0:00 [khugepaged]
+root          70  0.0  0.0      0     0 ?        I<   15:33   0:00 [kintegrityd]
+root          71  0.0  0.0      0     0 ?        I<   15:33   0:00 [kblockd]
+root          72  0.0  0.0      0     0 ?        I<   15:33   0:00 [blkcg_punt_bio]
+root          73  0.0  0.0      0     0 ?        I<   15:33   0:00 [tpm_dev_wq]
+root          74  0.0  0.0      0     0 ?        I<   15:33   0:00 [ata_sff]
+root          75  0.0  0.0      0     0 ?        I<   15:33   0:00 [md]
+root          76  0.0  0.0      0     0 ?        I<   15:33   0:00 [edac-poller]
+root          77  0.0  0.0      0     0 ?        I<   15:33   0:00 [devfreq_wq]
+root          78  0.0  0.0      0     0 ?        S    15:33   0:00 [watchdogd]
+root          80  0.0  0.0      0     0 ?        S    15:33   0:00 [kswapd0]
+root          81  0.0  0.0      0     0 ?        S    15:33   0:00 [ecryptfs-kthrea]
+root          83  0.0  0.0      0     0 ?        I<   15:33   0:00 [kthrotld]
+root          84  0.0  0.0      0     0 ?        I<   15:33   0:00 [acpi_thermal_pm]
+root          85  0.0  0.0      0     0 ?        S    15:33   0:00 [scsi_eh_0]
+root          86  0.0  0.0      0     0 ?        I<   15:33   0:00 [scsi_tmf_0]
+root          87  0.0  0.0      0     0 ?        S    15:33   0:00 [scsi_eh_1]
+root          88  0.0  0.0      0     0 ?        I<   15:33   0:00 [scsi_tmf_1]
+root          90  0.0  0.0      0     0 ?        I<   15:33   0:00 [vfio-irqfd-clea]
+root          92  0.0  0.0      0     0 ?        I<   15:33   0:00 [ipv6_addrconf]
+root         101  0.0  0.0      0     0 ?        I<   15:33   0:00 [kstrp]
+root         104  0.0  0.0      0     0 ?        I<   15:33   0:00 [kworker/u3:0]
+root         117  0.0  0.0      0     0 ?        I<   15:33   0:00 [charger_manager]
+root         157  0.0  0.0      0     0 ?        S    15:33   0:00 [scsi_eh_2]
+root         158  0.0  0.0      0     0 ?        I<   15:33   0:00 [scsi_tmf_2]
+root         159  0.0  0.0      0     0 ?        I<   15:33   0:00 [kworker/0:1H-kblockd]
+root         179  0.0  0.0      0     0 ?        I<   15:33   0:00 [ttm_swap]
+root         189  0.0  0.0      0     0 ?        I<   15:33   0:00 [kdmflush]
+root         216  0.0  0.0      0     0 ?        I<   15:33   0:00 [raid5wq]
+root         263  0.0  0.0      0     0 ?        S    15:33   0:00 [jbd2/dm-0-8]
+root         264  0.0  0.0      0     0 ?        I<   15:33   0:00 [ext4-rsv-conver]
+root         334  0.0  2.9 139812 59044 ?        S<s  15:33   0:00 /lib/systemd/systemd-journald
+root         368  0.0  0.0      0     0 ?        I    15:33   0:00 [kworker/0:3-cgroup_destroy]
+root         370  0.0  0.0   2488   580 ?        S    15:33   0:00 bpfilter_umh
+root         384  0.0  0.3  23184  6668 ?        Ss   15:33   0:00 /lib/systemd/systemd-udevd
+root         586  0.0  0.0      0     0 ?        I<   15:33   0:00 [kaluad]
+root         587  0.0  0.0      0     0 ?        I<   15:33   0:00 [kmpath_rdacd]
+root         588  0.0  0.0      0     0 ?        I<   15:33   0:00 [kmpathd]
+root         589  0.0  0.0      0     0 ?        I<   15:33   0:00 [kmpath_handlerd]
+root         590  0.0  0.8 280316 18128 ?        SLsl 15:33   0:00 /sbin/multipathd -d -s
+root         601  0.0  0.0      0     0 ?        S<   15:33   0:00 [loop0]
+root         602  0.0  0.0      0     0 ?        S<   15:33   0:00 [loop1]
+root         603  0.0  0.0      0     0 ?        S<   15:33   0:00 [loop2]
+root         608  0.0  0.0      0     0 ?        S    15:33   0:00 [jbd2/sda2-8]
+root         610  0.0  0.0      0     0 ?        I<   15:33   0:00 [ext4-rsv-conver]
+systemd+     656  0.0  0.3  90888  6072 ?        Ssl  15:33   0:00 /lib/systemd/systemd-timesyncd
+systemd+     665  0.0  0.3  19080  7356 ?        Ss   15:33   0:00 /lib/systemd/systemd-networkd
+systemd+     669  0.0  0.6  24816 12336 ?        Ss   15:33   0:00 /lib/systemd/systemd-resolved
+root         681  0.0  0.3 235572  7256 ?        Ssl  15:33   0:00 /usr/lib/accountsservice/accounts-daemon
+root         684  0.0  0.1   6816  2836 ?        Ss   15:33   0:00 /usr/sbin/cron -f
+message+     685  0.0  0.2   7576  4676 ?        Ss   15:33   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root         693  0.0  0.8  29668 18136 ?        Ss   15:33   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+root         694  0.0  0.3 232732  6720 ?        Ssl  15:33   0:00 /usr/lib/policykit-1/polkitd --no-debug
+syslog       695  0.0  0.2 224492  5252 ?        Ssl  15:33   0:00 /usr/sbin/rsyslogd -n -iNONE
+root         698  0.0  1.4 1246964 29424 ?       Ssl  15:33   0:00 /usr/lib/snapd/snapd
+root         708  0.0  0.3  17364  7784 ?        Ss   15:33   0:00 /lib/systemd/systemd-logind
+root         712  0.0  0.5 393264 12104 ?        Ssl  15:33   0:00 /usr/lib/udisks2/udisksd
+daemon       714  0.0  0.1   3796  2172 ?        Ss   15:33   0:00 /usr/sbin/atd -f
+root         725  0.0  0.0   5828  1664 tty1     Ss+  15:33   0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+root         738  0.0  0.3  12188  7400 ?        Ss   15:33   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root         746  0.0  1.0 107944 20648 ?        Ssl  15:33   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root         756  0.0  0.5 241380 11212 ?        Ssl  15:33   0:00 /usr/sbin/ModemManager
+root         880  0.0  0.4  13932  8952 ?        Ss   15:33   0:00 sshd: andrey [priv]
+root         882  0.0  0.4  13940  8868 ?        Ss   15:33   0:00 sshd: andrey [priv]
+andrey       884  0.0  0.4  19092  9620 ?        Ss   15:33   0:00 /lib/systemd/systemd --user
+andrey       886  0.0  0.1 103840  3436 ?        S    15:33   0:00 (sd-pam)
+andrey      1125  0.1  0.3  14068  6252 ?        S    15:33   0:02 sshd: andrey@pts/0
+andrey      1126  0.0  0.2  14072  5488 ?        S    15:33   0:00 sshd: andrey@notty
+andrey      1127  0.0  0.3   9464  6352 pts/0    Ss   15:33   0:00 -bash
+andrey      1130  0.0  0.2   5888  4192 ?        Ss   15:33   0:00 /usr/lib/openssh/sftp-server
+root        1268  0.1  0.0      0     0 ?        I    15:43   0:01 [kworker/u2:1-events_freezable_power_]
+andrey      1303  0.0  0.1   5604  2108 pts/0    S+   15:48   0:00 script ps-log.txt
+andrey      1304  0.0  0.2   8264  5016 pts/1    Ss   15:48   0:00 bash -i
+root        1326  0.0  0.0      0     0 ?        I    15:48   0:00 [kworker/0:0-events]
+root        1329  0.0  0.0      0     0 ?        I    15:49   0:00 [kworker/u2:0-events_unbound]
+andrey      1330  0.1  0.1   5604  2100 pts/1    S+   15:49   0:00 script ps-log.txt
+andrey      1331  0.0  0.2   8264  5044 pts/2    Ss   15:49   0:00 bash -i
+andrey      1338  0.1  0.1   5604  2176 pts/2    S+   15:49   0:00 script
+andrey      1339  0.0  0.2   8264  4948 pts/3    Ss   15:49   0:00 bash -i
+andrey      1346  0.1  0.1   5604  2100 pts/3    S+   15:49   0:00 script -q
+andrey      1347  0.0  0.2   8368  5292 pts/4    Ss   15:49   0:00 bash -i
+andrey      1364  0.0  0.1   8640  3256 pts/4    T    15:53   0:00 top
+andrey      1366  0.1  0.1   5604  2240 pts/4    S+   15:54   0:00 script ps-log.txt
+andrey      1367  0.0  0.2   8372  5200 pts/5    Ss   15:54   0:00 bash -i
+root        1376  0.3  0.0      0     0 ?        I    15:54   0:01 [kworker/u2:2-events_unbound]
+andrey      1377  0.0  0.1   8640  3244 pts/5    T    15:54   0:00 top
+andrey      1384  0.1  0.1   5604  2100 pts/5    S+   15:54   0:00 script
+andrey      1385  0.0  0.2   8372  5052 pts/6    Ss   15:54   0:00 bash -i
+andrey      1402  0.1  0.1   5604  2096 pts/6    S+   15:55   0:00 script ps-log.txt
+andrey      1403  0.0  0.2   8372  5240 pts/7    Ss   15:55   0:00 bash -i
+andrey      1410  0.0  0.1   8640  3136 pts/7    T    15:56   0:00 top
+andrey      1452  0.0  0.1   5604  2240 pts/7    S+   16:01   0:00 script ps-log.txt
+andrey      1453  0.2  0.2   8264  4960 pts/8    Ss   16:01   0:00 bash -i
+andrey      1460  0.0  0.1   8888  3172 pts/8    R+   16:01   0:00 ps aux
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ 
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ 
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ top &
+[1] 1461
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ [?1l>kill 1461
+
+[1]+  Stopped                 top
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ 
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ 
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ exit
+exit
+There are stopped jobs.
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ exit
+exit
+[?1l>
+
+Script done on 2025-01-12 16:01:29+03:00 [COMMAND_EXIT_CODE="1"]
