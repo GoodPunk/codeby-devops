@@ -1,0 +1,45 @@
+Script started on 2025-01-12 16:47:07+03:00 [TERM="xterm" TTY="/dev/pts/7" COLUMNS="202" LINES="60"]
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ java -version
+java version "23.0.1" 2024-10-15
+Java(TM) SE Runtime Environment (build 23.0.1+11-39)
+Java HotSpot(TM) 64-Bit Server VM (build 23.0.1+11-39, mixed mode, sharing)
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ java -versionexit[Kkill 1461[4Ptop &kill 1461[5Pexitjava -version[Ksudo update-alternatives --config java
+[sudo] password for andrey: 
+There are 3 choices for the alternative java (providing /usr/bin/java).
+
+  Selection    Path                                         Priority   Status
+------------------------------------------------------------
+  0            /usr/lib/jvm/jdk-23.0.1-oracle-x64/bin/java   385884160 auto mode
+  1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java   1111      manual mode
+  2            /usr/lib/jvm/java-17-oracle/bin/java          1091      manual mode
+* 3            /usr/lib/jvm/jdk-23.0.1-oracle-x64/bin/java   385884160 manual mode
+
+Press <enter> to keep the current choice[*], or type selection number: 2 1
+update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/java to provide /usr/bin/java (java) in manual mode
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ 
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ 
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ sudo update-alternatives --config java[25Pjava -version
+openjdk version "11.0.25" 2024-10-15
+OpenJDK Runtime Environment (build 11.0.25+9-post-Ubuntu-1ubuntu120.04)
+OpenJDK 64-Bit Server VM (build 11.0.25+9-post-Ubuntu-1ubuntu120.04, mixed mode, sharing)
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ java -versionsudo update-alternatives --config java
+There are 3 choices for the alternative java (providing /usr/bin/java).
+
+  Selection    Path                                         Priority   Status
+------------------------------------------------------------
+  0            /usr/lib/jvm/jdk-23.0.1-oracle-x64/bin/java   385884160 auto mode
+* 1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java   1111      manual mode
+  2            /usr/lib/jvm/java-17-oracle/bin/java          1091      manual mode
+  3            /usr/lib/jvm/jdk-23.0.1-oracle-x64/bin/java   385884160 manual mode
+
+Press <enter> to keep the current choice[*], or type selection number: 3
+update-alternatives: using /usr/lib/jvm/jdk-23.0.1-oracle-x64/bin/java to provide /usr/bin/java (java) in manual mode
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ sudo update-alternatives --config java[25Pjava -version
+java version "23.0.1" 2024-10-15
+Java(TM) SE Runtime Environment (build 23.0.1+11-39)
+Java HotSpot(TM) 64-Bit Server VM (build 23.0.1+11-39, mixed mode, sharing)
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ 
+]0;andrey@andrey-codeby-devops: ~/codeby-devops/lesson4andrey@andrey-codeby-devops:~/codeby-devops/lesson4$ exit
+exit
+
+Script done on 2025-01-12 16:47:50+03:00 [COMMAND_EXIT_CODE="0"]
