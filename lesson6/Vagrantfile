@@ -1,0 +1,20 @@
+
+Vagrant.configure("2") do |config|
+  # add server
+  config.vm.define "server" do |server|
+    server.vm.box = "ubuntu/bionic64"
+	server.vm.hostname = "server"
+    server.vm.box_check_update = false
+	server.vm.network "private_network", type: "static", ip: "192.168.24.2"
+    server.vm.provision "shell", path: "provision-server.sh"
+  end
+  
+  # add client
+  config.vm.define "client" do |client|
+    client.vm.box = "ubuntu/bionic64"
+	client.vm.hostname = "client"
+    client.vm.box_check_update = false
+	client.vm.network "private_network", type: "static", ip: "192.168.24.3"
+    client.vm.provision "shell", path: "provision-client.sh"
+  end
+end
