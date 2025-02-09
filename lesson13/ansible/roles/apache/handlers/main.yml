@@ -1,0 +1,14 @@
+---
+- name: Start Apahce Ubuntu
+  service:
+    name: apache2
+    state: restarted
+    enabled: yes
+  when: ansible_os_name == 'Debian'
+
+- name: Start Apache CentOS
+  service:
+    name: httpd
+    state: restarted
+    enabled: yes
+  when: ansible_os_name == 'RedHat'
