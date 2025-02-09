@@ -1,0 +1,7 @@
+[db]
+ubuntu ansible_host=192.168.24.3 
+centos ansible_host=192.168.24.4
+
+[web]
+ubuntu ansible_host=192.168.24.3
+centos ansible_host=192.168.24.4

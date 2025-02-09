@@ -1,0 +1,14 @@
+---
+- name: Install Apache CentOS
+  yum:
+    name: httpd
+    state: present
+  become: yes
+
+- name: Apache is started and enabled
+  service:
+    name: httpd
+    state: started
+    enabled: true
+  become: yes
+
