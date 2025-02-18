@@ -1,8 +1,8 @@
 # Builder docker
 FROM maven AS build
 WORKDIR /app
-COPY ./webapp/complete/pom.xml .
-COPY ./webapp/complete/src ./src
+COPY ./lesson16-webapp/complete/pom.xml .
+COPY ./lesson16-webapp/complete/src ./src
 RUN mvn clean package -DskipTests
 
 # RUN docker
