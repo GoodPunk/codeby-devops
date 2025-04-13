@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:2.492.3-lts-jdk17  # Официальный образ с конкретной версией
+    container_name: jenkins
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home  # Все данные Jenkins
+      - /var/run/docker.sock:/var/run/docker.sock  # Проброс Docker socket
+    environment:
+      - JAVA_OPTS=-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true
+      - DOCKER_HOST=tcp://docker:2376
+    depends_on:
+      - docker
+
+  docker:
+    image: docker:dind
+    container_name: jenkins-docker
+    privileged: true
+    command: ["--tls=false"]  # Упрощаем настройку (для тестовой среды)
+    volumes:
+      - docker_data:/var/lib/docker  # Хранение образов/контейнеров сборки
+
+volumes:
+  jenkins_data:
+  docker_data:
