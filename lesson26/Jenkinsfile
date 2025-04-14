@@ -8,7 +8,7 @@ pipeline {
     
     environment {
         GITHUB_URL = "https://github.com/GoodPunk/codeby-devops.git"
-        GITHUB_CRED = "ssh-github"
+        GITHUB_CRED = "github-https"
         GITHUB_BRANCH = "lesson26"
         Hello_devops = "lesson26/hello-devops"
         Hello_jenkins = "lesson26/hello-jenkins"
