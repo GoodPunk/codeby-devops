@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   jenkins:
-    image: jenkins/jenkins:jdk17 
+    image: jenkins/jenkins:jdk17
     container_name: jenkins
     privileged: true
     user: root
@@ -10,22 +10,30 @@ services:
       - "8080:8080"
       - "50000:50000"
     volumes:
-      - jenkins_data:/var/jenkins_home 
-      - /var/run/docker.sock:/var/run/docker.sock 
+      - jenkins_data:/var/jenkins_home
+      - /usr/bin/docker:/usr/bin/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - JAVA_OPTS=-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true
-      - DOCKER_HOST=tcp://docker:2375  # Убедитесь, что вы используете правильный порт
+      - DOCKER_HOST=tcp://dind:2375  # Подключаемся к DinD
+    command: >
+      bash -c "
+      chmod 777 /var/run/docker.sock &&
+      /usr/local/bin/jenkins.sh
+      "
     depends_on:
-      - docker
+      - dind
 
-  docker:
+  dind:
     image: docker:dind
-    container_name: jenkins-docker
+    container_name: jenkins-dind
     privileged: true
-    command: ["--tls=false"]
+    environment:
+      - DOCKER_TLS_CERTDIR=  # Отключаем TLS
+    command: ["dockerd", "--host=tcp://0.0.0.0:2375", "--host=unix:///var/run/docker.sock"]
     volumes:
-      - docker_data:/var/lib/docker 
+      - dind_data:/var/lib/docker
 
 volumes:
   jenkins_data:
-  docker_data:
+  dind_data:
