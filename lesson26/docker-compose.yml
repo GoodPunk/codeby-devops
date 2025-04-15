@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # Jenkins Master
+  jenkins:
+    image: jenkins/jenkins:lts-jdk17
+    container_name: jenkins
+    privileged: true  # Необходимо для работы DinD
+    environment:
+      - DOCKER_HOST=tcp://dind:2375  # Указываем, что Docker внутри контейнера
+    ports:
+      - "8080:8080"  # Web-интерфейс Jenkins
+      - "50000:50000"  # Для Jenkins-агентов (если будут)
+    volumes:
+      - jenkins_home:/var/jenkins_home  # Сохраняем данные Jenkins
+      - /var/run/docker.sock:/var/run/docker.sock  # Пробрасываем Docker с хоста (альтернатива DinD)
+    depends_on:
+      - dind
+
+  # Docker-in-Docker (DinD) — отдельный сервис для сборки контейнеров
+  dind:
+    image: docker:dind
+    container_name: dind
+    privileged: true  # Обязательно для DinD
+    environment:
+      - DOCKER_TLS_CERTDIR=  # Отключаем TLS (для простоты)
+    volumes:
+      - dind_storage:/var/lib/docker  # Хранилище для Docker-образов внутри DinD
+
+volumes:
+  jenkins_home:  # Том для данных Jenkins
+  dind_storage:  # Том для данных Docker внутри DinD
