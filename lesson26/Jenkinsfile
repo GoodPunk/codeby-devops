@@ -1,14 +1,12 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9.9'
-            args '-v /home/andrey/.m2:/var/maven/.m2:rw -u 1000'
+            image 'maven:3.9.6'
+            args '-v /root/.m2:/root/.m2'
         }
     }
 
     environment {
-        MAVEN_CONFIG = "/var/maven/.m2"
-        MAVEN_OPTS = "-Duser.home=/var/maven"
         GITHUB_URL = "https://github.com/GoodPunk/codeby-devops.git"
         GITHUB_CRED = "github-token"
         GITHUB_BRANCH = "lesson26"
@@ -26,10 +24,11 @@ pipeline {
         stage('Build and Test APP') {
             parallel {
                 stage('DEVOPS') {
-                    when { changeset "${env.Hello_devops}/**/*.java" }
+                    //when { changeset "${env.Hello_devops}/**/*.java" }
                     stages {
                         stage ('Build DEVOPS') {
                             steps {
+                                sh 'mkdir -p /root/.m2/repository'
                                 dir(env.Hello_devops) {
                                     sh 'mvn -B -DskipTests clean package'
                                 }
@@ -51,10 +50,11 @@ pipeline {
                     }
                 }
                 stage('JENKINS') {
-                    when { changeset "${env.Hello_jenkins}/**/*.java" }
+                    //when { changeset "${env.Hello_jenkins}/**/*.java" }
                     stages {
                         stage ('Build JENKINS') {
                             steps {
+                                sh 'mkdir -p /root/.m2/repository'
                                 dir(env.Hello_jenkins) {
                                     sh 'mvn -B -DskipTests clean package'
                                 }
@@ -76,10 +76,11 @@ pipeline {
                     }
                 }
                 stage('WORLD') {
-                    when { changeset "${env.Hello_world}/**/*.java" }
+                    //when { changeset "${env.Hello_world}/**/*.java" }
                     stages {
                         stage ('Build WORLD') {
                             steps {
+                                sh 'mkdir -p /root/.m2/repository'
                                 dir(env.Hello_world) {
                                     sh 'mvn -B -DskipTests clean package'
                                 }
