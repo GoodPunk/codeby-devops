@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.9.6'
-            args '-v /root/.m2:/root/.m2'
+            args '-v /home/jenkins/.m2:/root/.m2'
         }
     }
 
@@ -28,7 +28,6 @@ pipeline {
                     stages {
                         stage ('Build DEVOPS') {
                             steps {
-                                sh 'mkdir -p /root/.m2/repository'
                                 dir(env.Hello_devops) {
                                     sh 'mvn -B -DskipTests clean package'
                                 }
@@ -54,7 +53,6 @@ pipeline {
                     stages {
                         stage ('Build JENKINS') {
                             steps {
-                                sh 'mkdir -p /root/.m2/repository'
                                 dir(env.Hello_jenkins) {
                                     sh 'mvn -B -DskipTests clean package'
                                 }
@@ -80,7 +78,6 @@ pipeline {
                     stages {
                         stage ('Build WORLD') {
                             steps {
-                                sh 'mkdir -p /root/.m2/repository'
                                 dir(env.Hello_world) {
                                     sh 'mvn -B -DskipTests clean package'
                                 }
