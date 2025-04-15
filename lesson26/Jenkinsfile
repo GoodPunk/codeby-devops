@@ -24,7 +24,7 @@ pipeline {
         stage('Build and Test APP') {
             parallel {
                 stage('DEVOPS') {
-                    //when { changeset "${env.Hello_devops}/**/*.java" }
+                    when { changeset "${env.Hello_devops}/**/*.java" }
                     stages {
                         stage ('Build DEVOPS') {
                             steps {
@@ -49,7 +49,7 @@ pipeline {
                     }
                 }
                 stage('JENKINS') {
-                    //when { changeset "${env.Hello_jenkins}/**/*.java" }
+                    when { changeset "${env.Hello_jenkins}/**/*.java" }
                     stages {
                         stage ('Build JENKINS') {
                             steps {
@@ -74,7 +74,7 @@ pipeline {
                     }
                 }
                 stage('WORLD') {
-                    //when { changeset "${env.Hello_world}/**/*.java" }
+                    when { changeset "${env.Hello_world}/**/*.java" }
                     stages {
                         stage ('Build WORLD') {
                             steps {
