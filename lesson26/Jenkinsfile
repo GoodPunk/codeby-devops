@@ -2,11 +2,13 @@ pipeline {
     agent {
         docker {
             image 'maven:3.9.9'
-            args '-v /home/andrey/.m2:/root/.m2'
+            args '-v /home/andrey/.m2:/var/maven/.m2:rw -u 1000'
         }
     }
 
     environment {
+        MAVEN_CONFIG = "/var/maven/.m2"
+        MAVEN_OPTS = "-Duser.home=/var/maven"
         GITHUB_URL = "https://github.com/GoodPunk/codeby-devops.git"
         GITHUB_CRED = "github-token"
         GITHUB_BRANCH = "lesson26"
