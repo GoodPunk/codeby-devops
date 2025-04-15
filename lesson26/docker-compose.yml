@@ -11,11 +11,11 @@ services:
       - "50000:50000"
     volumes:
       - jenkins_data:/var/jenkins_home
-      - /usr/bin/docker:/usr/bin/docker:ro
       - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/git:/usr/bin/git:ro  # Добавляем Git с хоста
+      - /usr/libexec/git-core:/usr/libexec/git-core:ro  # Необходимо для работы Git
     environment:
       - JAVA_OPTS=-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true
-      - DOCKER_HOST=tcp://dind:2375  # Подключаемся к DinD
     command: >
       bash -c "
       chmod 777 /var/run/docker.sock &&
@@ -29,7 +29,7 @@ services:
     container_name: jenkins-dind
     privileged: true
     environment:
-      - DOCKER_TLS_CERTDIR=  # Отключаем TLS
+      - DOCKER_TLS_CERTDIR=
     command: ["dockerd", "--host=tcp://0.0.0.0:2375", "--host=unix:///var/run/docker.sock"]
     volumes:
       - dind_data:/var/lib/docker
