@@ -1,0 +1,104 @@
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.9.6'
+            args '-u root'
+        }
+    }
+
+    environment {
+        GITHUB_URL = "https://github.com/GoodPunk/codeby-devops.git"
+        GITHUB_CRED = "github-token"
+        GITHUB_BRANCH = "lesson26"
+        Hello_devops = "lesson26/hello-devops"
+        Hello_jenkins = "lesson26/hello-jenkins"
+        Hello_world = "lesson26/hello-world"
+    }
+
+    stages {
+        stage('Check out') {
+            steps {
+                git branch: env.GITHUB_BRANCH, changelog: false, credentialsId: env.GITHUB_CRED, poll: false, url: env.GITHUB_URL
+            }
+        }
+        stage('Build and Test APP') {
+            parallel {
+                stage('DEVOPS') {
+                    when { changeset "${env.Hello_devops}/**/*.java" }
+                    stages {
+                        stage ('Build DEVOPS') {
+                            steps {
+                                dir(env.Hello_devops) {
+                                    sh 'mvn -B -DskipTests clean package'
+                                }
+                            }
+                        }
+                        stage ('Test DEVOPS') {
+                            steps {
+                                dir(env.Hello_devops) {
+                                    sh 'mvn test'
+                                }
+                            }
+                            post {
+                                always {
+                                    junit '**/target/surefire-reports/*.xml'
+                                    archiveArtifacts '**/target/*.jar'
+                                }
+                            }
+                        }
+                    }
+                }
+                stage('JENKINS') {
+                    when { changeset "${env.Hello_jenkins}/**/*.java" }
+                    stages {
+                        stage ('Build JENKINS') {
+                            steps {
+                                dir(env.Hello_jenkins) {
+                                    sh 'mvn -B -DskipTests clean package'
+                                }
+                            }
+                        }
+                        stage ('Test JENKINS') {
+                            steps {
+                                dir(env.Hello_jenkins) {
+                                    sh 'mvn test'
+                                }
+                            }
+                            post {
+                                always {
+                                    junit '**/target/surefire-reports/*.xml'
+                                    archiveArtifacts '**/target/*.jar'
+                                }
+                            }
+                        }
+                    }
+                }
+                stage('WORLD') {
+                    when { changeset "${env.Hello_world}/**/*.java" }
+                    stages {
+                        stage ('Build WORLD') {
+                            steps {
+                                dir(env.Hello_world) {
+                                    sh 'mvn -B -DskipTests clean package'
+                                }
+                            }
+                        }
+                        stage ('Test WORLD') {
+                            steps {
+                                dir(env.Hello_world) {
+                                    sh 'mvn test'
+                                }
+                            }
+                            post {
+                                always {
+                                    junit '**/target/surefire-reports/*.xml'
+                                    archiveArtifacts '**/target/*.jar'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
