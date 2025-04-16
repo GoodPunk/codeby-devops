@@ -159,20 +159,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            echo 'clean workspace'
-            cleanWs()
-            script {
-                sh 'docker system prune -f --filter "until=1h" || true'
-            }
-        }
-        success {
-            echo 'Pipeline clean!'
-        }
-        failure {
-            echo 'Pipeline clean fail!'
-        }
-    }
 }
