@@ -2,7 +2,8 @@ pipeline {
     agent {
         docker {
             image 'maven:3.9.6'
-            args '-u root'
+            args '-u root -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp'
+            reuseNode true
         }
     }
 
@@ -147,16 +148,5 @@ pipeline {
             }
         }
 
-        stage('Cleanup') {
-            steps {
-                script {
-                    echo 'clean artefacts'
-                    sh '''
-                        find . -name 'target' -type d -exec rm -rf {} +
-                        find . -name '*.jar' -type f -delete
-                    '''
-                }
-            }
-        }
     }
 }
