@@ -49,8 +49,10 @@ pipeline {
                         }
                         stage('SonarQube Analysis Hello-DevOps') {
                             steps {
-                                withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarserver') {
-                                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Hello-DevOps -Dsonar.projectName='Hello-DevOps'"
+                                dir(env.Hello_devops) {
+                                    withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarserver') {
+                                        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Hello-DevOps -Dsonar.projectName='Hello-DevOps'"
+                                    }
                                 }
                             }
                         }
@@ -86,8 +88,10 @@ pipeline {
                         }
                         stage('SonarQube Analysis Hello-Jenkins') {
                             steps {
-                                withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarserver') {
-                                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Hello-Jenkins -Dsonar.projectName='Hello-Jenkins'"
+                                dir(env.Hello_jenkins) {
+                                    withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarserver') {
+                                        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Hello-Jenkins -Dsonar.projectName='Hello-Jenkins'"
+                                    }
                                 }
                             }
                         }
@@ -123,8 +127,10 @@ pipeline {
                         }
                         stage('SonarQube Analysis Hello-WORLD') {
                             steps {
-                                withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarserver') {
-                                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Hello-World -Dsonar.projectName='Hello-World'"
+                                dir(env.Hello_world) {
+                                    withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarserver') {
+                                        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Hello-World -Dsonar.projectName='Hello-World'"
+                                    }
                                 }
                             }
                         }
