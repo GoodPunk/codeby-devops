@@ -26,16 +26,15 @@ pipeline {
         stage('Build and Test APP') {
             parallel {
                 stage('DEVOPS') {
-                    //when { changeset "${env.Hello_devops}/**/*.java" }
                     stages {
-                        stage ('Build DEVOPS') {
+                        stage('Build DEVOPS') {
                             steps {
                                 dir(env.Hello_devops) {
                                     sh 'mvn -B -DskipTests clean package'
                                 }
                             }
                         }
-                        stage ('Test DEVOPS') {
+                        stage('Test DEVOPS') {
                             steps {
                                 dir(env.Hello_devops) {
                                     sh 'mvn test'
@@ -52,7 +51,6 @@ pipeline {
                             steps {
                                 withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarserver') {
                                     sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Hello-DevOps -Dsonar.projectName='Hello-DevOps'"
-                                    }
                                 }
                             }
                         }
@@ -65,16 +63,15 @@ pipeline {
                     }
                 }
                 stage('JENKINS') {
-                    //when { changeset "${env.Hello_jenkins}/**/*.java" }
                     stages {
-                        stage ('Build JENKINS') {
+                        stage('Build JENKINS') {
                             steps {
                                 dir(env.Hello_jenkins) {
                                     sh 'mvn -B -DskipTests clean package'
                                 }
                             }
                         }
-                        stage ('Test JENKINS') {
+                        stage('Test JENKINS') {
                             steps {
                                 dir(env.Hello_jenkins) {
                                     sh 'mvn test'
@@ -91,7 +88,6 @@ pipeline {
                             steps {
                                 withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarserver') {
                                     sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Hello-Jenkins -Dsonar.projectName='Hello-Jenkins'"
-                                    }
                                 }
                             }
                         }
@@ -104,16 +100,15 @@ pipeline {
                     }
                 }
                 stage('WORLD') {
-                    //when { changeset "${env.Hello_world}/**/*.java" }
                     stages {
-                        stage ('Build WORLD') {
+                        stage('Build WORLD') {
                             steps {
                                 dir(env.Hello_world) {
                                     sh 'mvn -B -DskipTests clean package'
                                 }
                             }
                         }
-                        stage ('Test WORLD') {
+                        stage('Test WORLD') {
                             steps {
                                 dir(env.Hello_world) {
                                     sh 'mvn test'
@@ -130,7 +125,6 @@ pipeline {
                             steps {
                                 withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarserver') {
                                     sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Hello-World -Dsonar.projectName='Hello-World'"
-                                    }
                                 }
                             }
                         }
@@ -144,6 +138,5 @@ pipeline {
                 }
             }
         }
-
     }
 }
