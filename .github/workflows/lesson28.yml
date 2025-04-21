@@ -15,72 +15,114 @@ on:
       - "lesson28/hello-world/**"
 
 jobs:
+  verify-structure:
+    runs-on: ubuntu-latest
+    outputs:
+      valid: ${{ steps.check-structure.outputs.valid }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify project structure
+        id: check-structure
+        run: |
+          valid=true
+          for app in hello-devops hello-jenkins hello-world; do
+            if [ ! -f "lesson28/$app/Dockerfile" ]; then
+              echo "Missing Dockerfile in lesson28/$app/"
+              valid=false
+            fi
+            if [ ! -f "lesson28/$app/pom.xml" ]; then
+              echo "Missing pom.xml in lesson28/$app/"
+              valid=false
+            fi
+          done
+          echo "::set-output name=valid::$valid"
+
   build_and_test:
     runs-on: ubuntu-latest
-
+    needs: verify-structure
+    if: needs.verify-structure.outputs.valid == 'true'
     strategy:
       matrix:
         app: [hello-devops, hello-jenkins, hello-world]
+      fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: 17
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
 
-      - name: Cache the Maven packages to speed up build
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('lesson28/${{ matrix.app }}/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
-      - name: Build project with Maven
-        run: mvn -B package --file lesson28/${{ matrix.app }}/pom.xml
-
-      - name: Run Tests
-        run: mvn test --file lesson28/${{ matrix.app }}/pom.xml
+      - name: Build and test
+        run: |
+          cd "lesson28/${{ matrix.app }}"
+          mvn -B package
+          mvn test
 
   publish-job:
     runs-on: ubuntu-latest
-    needs: [build_and_test]
-
+    needs: build_and_test
     strategy:
       matrix:
         app: [hello-devops, hello-jenkins, hello-world]
+      fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
-
+      - uses: actions/checkout@v4
+      
       - name: Package without tests
-        run: mvn -B package --file lesson28/${{ matrix.app }}/pom.xml -DskipTests
+        run: |
+          cd "lesson28/${{ matrix.app }}"
+          mvn -B package -DskipTests
 
-      - name: Prepare Staging Directory
-        run: mkdir staging && cp lesson28/${{ matrix.app }}/target/*.jar staging
+      - name: Verify JAR file
+        run: |
+          ls -la "lesson28/${{ matrix.app }}/target/"
+          test -f "lesson28/${{ matrix.app }}/target/"*.jar || exit 1
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Package ${{ matrix.app }}
-          path: staging
+          name: ${{ matrix.app }}-jar
+          path: "lesson28/${{ matrix.app }}/target/*.jar"
 
   build-docker-image:
-    name: Publish to Docker Hub
+    name: Build and push Docker images
     runs-on: ubuntu-latest
-    needs: [publish-job]
-
+    needs: publish-job
     strategy:
       matrix:
         app: [hello-devops, hello-jenkins, hello-world]
+      fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.app }}-jar
+          path: "lesson28/${{ matrix.app }}/target/"
+
+      - name: Verify Dockerfile
+        run: |
+          ls -la "lesson28/${{ matrix.app }}/"
+          test -f "lesson28/${{ matrix.app }}/Dockerfile" || exit 1
 
       - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_REPO }}:${{ matrix.app }} --file lesson28/${{ matrix.app }}/Dockerfile lesson28/${{ matrix.app }}
-
-      - name: Publish Docker Image
-        run: docker push ${{ secrets.DOCKER_REPO }}:${{ matrix.app }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: "lesson28/${{ matrix.app }}"
+          file: "lesson28/${{ matrix.app }}/Dockerfile"
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.app }}:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.app }}:${{ github.sha }}
