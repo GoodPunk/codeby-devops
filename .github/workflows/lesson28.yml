@@ -3,8 +3,12 @@ name: Lesson28 CI/CD
 on:
   push:
     branches: [lesson28]
+    paths:
+      - "lesson28/**"
   pull_request:
     branches: [lesson28]
+    paths:
+      - "lesson28/**"
 
 jobs:
   build_and_test:
