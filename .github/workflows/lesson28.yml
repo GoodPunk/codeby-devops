@@ -8,7 +8,7 @@ on:
       - "lesson28/hello-jenkins/**"
       - "lesson28/hello-world/**"
   pull_request:
-    branches: [main, lesson28]
+    branches: [master, lesson28]
     paths:
       - "lesson28/hello-devops/**"
       - "lesson28/hello-jenkins/**"
