@@ -1,0 +1,64 @@
+name: Lesson28 CI/CD
+
+on:
+  push:
+    branches: [lesson28]
+    paths:
+      - "lesson28/hello-devops/**"
+      - "lesson28/hello-jenkins/**"
+      - "lesson28/hello-world/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "lesson28/hello-devops/**"
+      - "lesson28/hello-jenkins/**"
+      - "lesson28/hello-world/**"
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [hello-devops, hello-jenkins, hello-world]
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build and test
+        run: |
+          cd lesson28/${{ matrix.app }}
+          mvn -B package
+          mvn test
+
+  publish-job:
+    runs-on: ubuntu-latest
+    needs: build_and_test
+    strategy:
+      matrix:
+        app: [hello-devops, hello-jenkins, hello-world]
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Package without tests
+        run: |
+          cd lesson28/${{ matrix.app }}
+          mvn -B package -DskipTests
+
+      - name: Prepare artifacts
+        run: |
+          mkdir -p staging
+          cp lesson28/${{ matrix.app }}/target/*.jar staging/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-artifact
+          path: staging
+          retention-days: 1
