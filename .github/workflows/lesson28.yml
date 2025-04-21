@@ -62,3 +62,28 @@ jobs:
           name: ${{ matrix.app }}-artifact
           path: staging
           retention-days: 1
+  build-docker-image:
+    name: Build and push Docker images
+    runs-on: ubuntu-latest
+    needs: publish-job
+    strategy:
+      matrix:
+        app: [hello-devops, hello-jenkins, hello-world]
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: lesson28/${{ matrix.app }}
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_REPO }}:${{ matrix.app }}-latest
+            ${{ secrets.DOCKER_REPO }}:${{ matrix.app }}-${{ github.sha }}
