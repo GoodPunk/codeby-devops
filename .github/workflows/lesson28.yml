@@ -3,16 +3,8 @@ name: Lesson28 CI/CD
 on:
   push:
     branches: [lesson28]
-    paths:
-      - "lesson28/hello-devops/**"
-      - "lesson28/hello-jenkins/**"
-      - "lesson28/hello-world/**"
   pull_request:
     branches: [lesson28]
-    paths:
-      - "lesson28/hello-devops/**"
-      - "lesson28/hello-jenkins/**"
-      - "lesson28/hello-world/**"
 
 jobs:
   build_and_test:
