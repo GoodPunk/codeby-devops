@@ -80,7 +80,7 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_REPO }}:${{ matrix.app }} --file lesson28/Dockerfile lesson28/${{ matrix.app }}
+        run: docker build -t ${{ secrets.DOCKER_REPO }}:${{ matrix.app }} --file lesson28/${{ matrix.app }}/Dockerfile lesson28/${{ matrix.app }}
 
       - name: Publish Docker Image
         run: docker push ${{ secrets.DOCKER_REPO }}:${{ matrix.app }}
