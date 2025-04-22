@@ -2,9 +2,9 @@ name: lesson 28 CI Pipeline
 
 on:
   push:
-    branches: [ lesson28 ]
+    branches: [ master, lesson28 ]
   pull_request:
-    branches: [ lesson28 ]
+    branches: [ master, lesson28 ]
 
 env:
   MAVEN_OPTS: -Dhttps.protocols=TLSv1.2
