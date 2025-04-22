@@ -2,11 +2,11 @@ name: Lesson28 CI/CD
 
 on:
   push:
-    branches: [lesson28]
+    branches: [master, lesson28]
     paths:
       - "lesson28/**"
   pull_request:
-    branches: [lesson28]
+    branches: [master, lesson28]
     paths:
       - "lesson28/**"
 
