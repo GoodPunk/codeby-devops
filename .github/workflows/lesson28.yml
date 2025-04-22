@@ -6,55 +6,73 @@ on:
   pull_request:
     branches: [ master, lesson28 ]
 
-env:
-  MAVEN_OPTS: -Dhttps.protocols=TLSv1.2
-  MAVEN_VERSION: 3.9.6
-  JAVA_VERSION: 17
-  DOCKER_IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}
-
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        app: ['hello-world', 'hello-jenkins', 'hello-devops']
-    
+        app: [hello-devops, hello-jenkins, hello-world]
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
 
-    - name: Set up JDK ${{ env.JAVA_VERSION }}
-      uses: actions/setup-java@v3
-      with:
-        java-version: ${{ env.JAVA_VERSION }}
-        distribution: 'temurin'
-        cache: 'maven'
+      - name: Cache the Maven packages to speed up build
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('lesson28/${{ matrix.app }}/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
-    - name: Set up Maven ${{ env.MAVEN_VERSION }}
-      uses: s4u/setup-maven-action@v1
-      with:
-        maven-version: ${{ env.MAVEN_VERSION }}
+      - name: Build project with Maven
+        run: mvn -B package --file lesson28/${{ matrix.app }}/pom.xml
 
-    - name: Build and test ${{ matrix.app }}
-      working-directory: lesson28/${{ matrix.app }}
-      run: mvn -B package --file pom.xml
+      - name: Run Tests
+        run: mvn test --file lesson28/${{ matrix.app }}/pom.xml
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ matrix.app }}-jar
-        path: lesson28/${{ matrix.app }}/target/*.jar
+  publish-job:
+    runs-on: ubuntu-latest
+    needs: [build_and_test]
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    strategy:
+      matrix:
+        app: [hello-devops, hello-jenkins, hello-world]
 
-    - name: Build and push Docker image
-      working-directory: lesson28/${{ matrix.app }}
-      run: |
-        # Assume each app has a Dockerfile in its directory
-        docker build -t ${{ env.DOCKER_IMAGE_PREFIX }}/${{ matrix.app }}:latest .
-        docker push ${{ env.DOCKER_IMAGE_PREFIX }}/${{ matrix.app }}:latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Package without tests
+        run: mvn -B package --file lesson28/${{ matrix.app }}/pom.xml -DskipTests
+
+      - name: Prepare Staging Directory
+        run: mkdir staging && cp lesson28/${{ matrix.app }}/target/*.jar staging
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Package ${{ matrix.app }}
+          path: staging
+
+  build-docker-image:
+    name: Publish to Docker Hub
+    runs-on: ubuntu-latest
+    needs: [publish-job]
+
+    strategy:
+      matrix:
+        app: [hello-devops, hello-jenkins, hello-world]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_REPO }}:${{ matrix.app }} --file lesson28/${{ matrix.app }}/Dockerfile lesson28/${{ matrix.app }}
+
+      - name: Publish Docker Image
+        run: docker push ${{ secrets.DOCKER_REPO }}:${{ matrix.app }}
