@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: lesson 28 CI Pipeline
 
 on:
   push:
