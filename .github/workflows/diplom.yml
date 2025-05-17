@@ -1,3 +1,4 @@
+
 name: Diplom Python_Django App CI/CD
 
 on:
@@ -20,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Login ghcr.io
-      run: echo ${{ secrets.GH_RAT }} | docker login -u ${{ vars.GH_USER }} --password-stdin ghcr.io
+      run: echo ${{ secrets.GH_PAT }} | docker login -u ${{ vars.GH_USER }} --password-stdin ghcr.io
     - name: Run logging
       working-directory: ${{ env.DOCKER_DIR }} 
       run: docker-compose -f logging.yaml up -d
@@ -67,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Login ghcr.io
-        run: echo ${{ secrets.GH_RAT }} | docker login -u ${{ vars.GH_USER }} --password-stdin ghcr.io
+        run: echo ${{ secrets.GH_PAT }} | docker login -u ${{ vars.GH_USER }} --password-stdin ghcr.io
       - name: Build and push image by GHCR
         working-directory: ${{ env.WORK_DIR }}
         run: |
@@ -80,7 +81,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Login ghcr.io
-      run: echo ${{ secrets.GH_RAT }} | docker login -u ${{ vars.GH_USER }} --password-stdin ghcr.io
+      run: echo ${{ secrets.GH_PAT }} | docker login -u ${{ vars.GH_USER }} --password-stdin ghcr.io
     - name: Run project
       working-directory: ${{ env.DOCKER_DIR }}
       run: |
@@ -90,4 +91,3 @@ jobs:
         docker pull ${{ env.GH_REGISTRY }}/${{ vars.DOCKER_NAME }}:latest
         docker-compose -f django.yaml up -d
         docker ps
-        
