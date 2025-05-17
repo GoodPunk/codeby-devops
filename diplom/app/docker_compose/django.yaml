@@ -1,0 +1,22 @@
+
+version: "3"
+services:
+  django:
+    container_name: django
+    image: ghcr.io/goodpunk/diplom:latest
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    volumes:
+      - django_db:/app/db.sqlite
+    logging:
+      driver: fluentd
+      options:
+        "fluentd-address": "localhost:24224"
+        "tag": "service.django"
+
+volumes:
+  django_db:
+
