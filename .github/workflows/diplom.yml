@@ -3,9 +3,9 @@ name: Diplom Python_Django App CI/CD
 
 on:
   push:
-    branches: [ diplom ]
+    branches: [ diplom master]
   pull_request:
-    branches: [ diplom ]
+    branches: [ diplom master]
 
 env:
   WORK_DIR: ./diplom/app
